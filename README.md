@@ -14,6 +14,7 @@ Crawl a site to generate knowledge files to create your own custom GPT from one 
   - [Alternative methods](#alternative-methods)
     - [Running in a container with Docker](#running-in-a-container-with-docker)
     - [Running as an API](#running-as-an-api)
+  - [Running with GUI](#running-with-gui)
   - [Upload your data to OpenAI](#upload-your-data-to-openai)
     - [Create a custom GPT](#create-a-custom-gpt)
     - [Create a custom assistant](#create-a-custom-assistant)
@@ -113,6 +114,22 @@ To run the server.
 You can use the endpoint `/crawl` with the post request body of config json to run the crawler. The api docs are served on the endpoint `/api-docs` and are served using swagger.
 
 To modify the environment you can copy over the `.env.example` to `.env` and set your values like port, etc. to override the variables for the server.
+
+### Running with GUI
+
+To run the app with a GUI, follow these steps:
+
+1. Ensure you have Electron installed. If not, you can install it using npm:
+   ```sh
+   npm install electron
+   ```
+
+2. Start the Electron app:
+   ```sh
+   npm run start:gui
+   ```
+
+This will open a window where you can input configuration settings, start the crawler, and view the progress and output file location.
 
 ### Upload your data to OpenAI
 

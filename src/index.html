@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Crawler GUI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+        }
+        .progress {
+            margin-top: 20px;
+        }
+        .output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GPT Crawler GUI</h1>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" id="url" placeholder="Enter the URL to start crawling">
+        </div>
+        <div class="form-group">
+            <label for="match">Match Pattern</label>
+            <input type="text" id="match" placeholder="Enter the URL pattern to match">
+        </div>
+        <div class="form-group">
+            <label for="selector">CSS Selector</label>
+            <input type="text" id="selector" placeholder="Enter the CSS selector to match">
+        </div>
+        <div class="form-group">
+            <label for="maxPagesToCrawl">Max Pages to Crawl</label>
+            <input type="number" id="maxPagesToCrawl" placeholder="Enter the maximum number of pages to crawl">
+        </div>
+        <div class="form-group">
+            <label for="outputFileName">Output File Name</label>
+            <input type="text" id="outputFileName" placeholder="Enter the output file name">
+        </div>
+        <button id="startButton">Start Crawling</button>
+        <div class="progress" id="progress"></div>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            const config = {
+                url: document.getElementById('url').value,
+                match: document.getElementById('match').value,
+                selector: document.getElementById('selector').value,
+                maxPagesToCrawl: document.getElementById('maxPagesToCrawl').value,
+                outputFileName: document.getElementById('outputFileName').value,
+            };
+
+            ipcRenderer.send('start-crawling', config);
+
+            ipcRenderer.on('progress', (event, progress) => {
+                document.getElementById('progress').innerText = `Progress: ${progress}`;
+            });
+
+            ipcRenderer.on('output', (event, output) => {
+                document.getElementById('output').innerText = `Output file: ${output}`;
+            });
+        });
+    </script>
+</body>
+</html>

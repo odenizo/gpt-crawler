@@ -19,7 +19,8 @@
     "inquirer": "^9.2.12",
     "playwright": "*",
     "prettier": "^3.1.0",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "electron": "^25.2.0"
   },
   "devDependencies": {
     "@apify/tsconfig": "^0.1.0",
@@ -49,6 +50,7 @@
     "start:cli": "cross-env NODE_ENV=development npm run build && node dist/src/cli.js",
     "start:dev": "cross-env NODE_ENV=development npm run build && node dist/src/main.js",
     "start:prod": "node dist/src/main.js",
+    "start:gui": "electron src/gui.ts",
     "test": "echo \"No test specified, please create tests.\" && exit 0",
     "build": "tsc",
     "fmt": "prettier --write .",
