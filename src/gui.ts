@@ -40,7 +40,7 @@ ipcMain.on('start-crawl', async (event, config: Config) => {
     await crawl(config);
     const outputFileName = await write(config);
     event.sender.send('crawl-complete', outputFileName);
-  } catch (error) {
+  } catch (error: any) {
     event.sender.send('crawl-error', error.message);
   }
 });
