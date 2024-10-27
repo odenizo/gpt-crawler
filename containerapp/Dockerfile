@@ -31,5 +31,7 @@ RUN cd /home && git clone --depth=1 https://github.com/builderio/gpt-crawler && 
 # Directory to mount in the docker container to get the output.json data
 RUN cd /home && mkdir data
 
+# Expose the necessary ports for external access
+EXPOSE 5000
 
 WORKDIR /home
