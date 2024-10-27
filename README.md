@@ -131,6 +131,53 @@ To run the app with a GUI, follow these steps:
 
 This will open a window where you can input configuration settings, start the crawler, and view the progress and output file location.
 
+### Configuring GCP firewall rules
+
+To ensure the GUI is externally accessible through the web, follow these steps:
+
+1. **Expose the port**: Ensure that the port on which your application is running is exposed. For example, if your application is running on port 5000, make sure this port is open in your firewall settings and is allowed for external access.
+2. **Update `.env` file**: Modify the `.env` file to set `API_HOST` to `0.0.0.0` instead of `localhost`. This will allow the application to listen on all network interfaces.
+3. **Configure GCP firewall rules**: In your Google Cloud Platform (GCP) console, navigate to the VPC network and configure firewall rules to allow incoming traffic on the port your application is running on.
+
+### Setting up a reverse proxy
+
+To set up a reverse proxy like Nginx to forward requests from a public IP address to your application running on the GCP VM, follow these steps:
+
+1. **Install Nginx**: Install Nginx on your GCP VM.
+   ```sh
+   sudo apt update
+   sudo apt install nginx
+   ```
+
+2. **Configure Nginx**: Edit the Nginx configuration file to set up the reverse proxy.
+   ```sh
+   sudo nano /etc/nginx/sites-available/default
+   ```
+
+   Add the following configuration to the file:
+   ```nginx
+   server {
+       listen 80;
+
+       server_name your_domain_or_IP;
+
+       location / {
+           proxy_pass http://localhost:5000;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
+   ```
+
+3. **Restart Nginx**: Restart Nginx to apply the changes.
+   ```sh
+   sudo systemctl restart nginx
+   ```
+
+4. **Access the application**: Open a web browser and navigate to the public IP address of your GCP VM, followed by the port number. For example, `http://<your-public-ip>:5000`.
+
 ### Upload your data to OpenAI
 
 The crawl will generate a file called `output.json` at the root of this project. Upload that [to OpenAI](https://platform.openai.com/docs/assistants/overview) to create your custom assistant or custom GPT.
