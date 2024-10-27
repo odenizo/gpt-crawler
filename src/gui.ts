@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { crawl, write } from './core';
 import { Config } from './config';
+import Papa from 'papaparse';
 
 let mainWindow: BrowserWindow | null = null;
 
